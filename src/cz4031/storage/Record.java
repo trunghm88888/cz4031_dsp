@@ -1,5 +1,9 @@
 package cz4031.storage;
 
+import cz4031.util.ObjectSizeFetcher;
+
+import java.lang.instrument.Instrumentation;
+
 //class for recording tconst (unique identifier), average rating and number of votes
 public class Record {
 	public String tConst;
