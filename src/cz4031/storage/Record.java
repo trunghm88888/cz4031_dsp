@@ -48,8 +48,9 @@ public class Record {
 	public static int size() {
 		return 17;
 	}
-	
-	public String convertToString( ) {
+
+	@Override
+	public String toString( ) {
 		return "{" + tConst + "; " + avgRat + "; " + numVot + "}";
 	}
 }
