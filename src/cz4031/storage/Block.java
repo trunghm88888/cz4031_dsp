@@ -1,6 +1,6 @@
 package cz4031.storage;
 
-import javax.annotation.processing.SupportedSourceVersion;
+//import javax.annotation.processing.SupportedSourceVersion;
 
 /**
  * Simulate a disk block:
@@ -11,34 +11,69 @@ import javax.annotation.processing.SupportedSourceVersion;
  */
 
 public class Block {
-    private int total_records;
-    private Record[] records;
+    int maxRecords;
+    int curRecords;
+    Record[] records;
 
-    public Block(int BLOCK_SIZE) {
-        this.total_records = 0;
-        this.records = new Record[(BLOCK_SIZE - 4) / Record.size()]; // reduce 4B for the int total_records
+    //initialise new block
+    public Block(int size){
+        this.curRecords = 0;
+        this.maxRecords = size / Record.size();
+        this.records = new Record[maxRecords];
     }
 
-    public Record getRecord(int pos) {
-        return records[pos];
+    //check got space for additional record
+    public boolean isAvailable(){
+        return curRecords < maxRecords;
     }
 
-    public int insertRecord(Record r) {
-        if (total_records < records.length) {
-            records[total_records++] = r;
-            return total_records;
-        } else return -1;
-    }
-
-    public void deleteRecord(int pos) {
-        if (records[pos] != null) {
-            records[pos] = null;
-            total_records--;
+    public int insertRecord(Record record) throws Exception {
+        if (!isAvailable()){
+            throw new Exception("Insufficient space to insert new record");
         }
+
+
+        int offset = -1;
+
+        // insert record, on the first empty space
+        for (int i = 0; i < records.length ; i++) {
+            if (records[i] == null ){
+                records[i] = record;
+                offset = i;
+                curRecords++;
+                break;
+            }
+        }
+        return offset;
     }
 
-    public void logBlockData() {
-        for (Record r : records)
-            System.out.println(r);
+    //delete record at given offset
+    public boolean deleteRecordAt(int offset){
+        boolean success = false;
+        if (records[offset]!=null){
+            records[offset] = null;
+            curRecords--;
+            success = true;
+        }
+        return success;
+    }
+
+    //get record at given offset
+    public Record getRecordAt(int offset){
+        return records[offset];
+    }
+
+    //enable printing of current record
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        for (int i=0; i< records.length; i++){
+            if (i > 0){
+                sb.append(", ");
+            }
+            sb.append(String.format("%d : {%s}", i, records[i].tConst ));
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }
