@@ -1,6 +1,7 @@
 package cz4031.storage;
 
 import javax.annotation.processing.SupportedSourceVersion;
+import java.util.Arrays;
 
 /**
  * Simulate a disk block:
@@ -26,19 +27,26 @@ public class Block {
     public int insertRecord(Record r) {
         if (total_records < records.length) {
             records[total_records++] = r;
-            return total_records;
+            return (total_records - 1); // offset of the just inserted record
         } else return -1;
     }
 
     public void deleteRecord(int pos) {
         if (records[pos] != null) {
-            records[pos] = null;
+            if (total_records - 1 - pos >= 0)
+                System.arraycopy(records, pos + 1, records, pos, total_records - 1 - pos);
             total_records--;
         }
     }
 
-    public void logBlockData() {
-        for (Record r : records)
-            System.out.println(r);
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder("Block@" + this.hashCode() + "\n"
+                + "Total records: " + total_records + "\n"
+                + "Content: ");
+        for (Record r : records) {
+            res.append(r).append(", ");
+        }
+        return res.toString();
     }
 }
