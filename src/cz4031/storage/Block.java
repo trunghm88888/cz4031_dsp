@@ -20,6 +20,10 @@ public class Block {
         this.records = new Record[(BLOCK_SIZE - 4) / Record.size()]; // reduce 4B for the int total_records
     }
 
+    public boolean isAvailable(){
+        return total_records < records.length;
+    }
+
     public Record getRecord(int pos) {
         return records[pos];
     }
@@ -31,15 +35,16 @@ public class Block {
         } else return -1;
     }
 
-    public void deleteRecord(int pos) {
+    public boolean deleteRecord(int pos) {
         if (records[pos] != null) {
             if (total_records - 1 - pos >= 0)
                 System.arraycopy(records, pos + 1, records, pos, total_records - 1 - pos);
             total_records--;
+            return true;
         }
+        return false;
     }
 
-    @Override
     public String toString() {
         StringBuilder res = new StringBuilder("Block@" + this.hashCode() + "\n"
                 + "Total records: " + total_records + "\n"
