@@ -64,7 +64,7 @@ public class Log {
     }
     
     // default tag is used when no tag is provided
-	 public static void wtf(String msg) {
+	 public static void defaut(String msg) {
 	 	defaut(TAG, msg);
 	}
 
