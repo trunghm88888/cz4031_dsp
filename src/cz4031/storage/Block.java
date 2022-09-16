@@ -1,6 +1,8 @@
 package cz4031.storage;
 
 import javax.annotation.processing.SupportedSourceVersion;
+import javax.xml.crypto.Data;
+
 import java.util.Arrays;
 
 /**
@@ -12,16 +14,18 @@ import java.util.Arrays;
  */
 
 public class Block {
-    private int total_records;
-    private Record[] records;
+    int curRecords;    //amount of records in the block currently
+    int totalRecords; //total amount of record per block
+    Record[] records; //records in a block
 
     public Block(int BLOCK_SIZE) {
-        this.total_records = 0;
-        this.records = new Record[(BLOCK_SIZE - 4) / Record.size()]; // reduce 4B for the int total_records
+        this.curRecords = 0;
+        this.totalRecords = BLOCK_SIZE / Record.size();
+        this.records = new Record[this.totalRecords]; // reduce 4B for the int 
     }
 
     public boolean isAvailable(){
-        return total_records < records.length;
+        return curRecords < totalRecords;
     }
 
     public Record getRecord(int pos) {
@@ -29,29 +33,52 @@ public class Block {
     }
 
     public int insertRecord(Record r) {
-        if (total_records < records.length) {
-            records[total_records++] = r;
-            return (total_records - 1); // offset of the just inserted record
-        } else return -1;
+        //insert into first available space
+        for (int i = 0;i< records.length;i++) {
+            if(records[i] == null){
+                records[i] = r;
+                int offset = i;
+                this.curRecords++;
+                return offset;
+            }
+        }
+        // no space to insert record
+        return -1;
     }
 
     public boolean deleteRecord(int pos) {
         if (records[pos] != null) {
-            if (total_records - 1 - pos >= 0)
-                System.arraycopy(records, pos + 1, records, pos, total_records - 1 - pos);
-            total_records--;
+            //clear the entry
+            records[pos] = null;
+            curRecords--;
+            //deletion successful
             return true;
         }
+        //uncessfull deletion
         return false;
     }
 
+    /* 
     public String toString() {
         StringBuilder res = new StringBuilder("Block@" + this.hashCode() + "\n"
-                + "Total records: " + total_records + "\n"
+                + "Total records: " + totalRecords + "\n"
                 + "Content: ");
         for (Record r : records) {
             res.append(r).append(", ");
         }
         return res.toString();
+    }
+    */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i=0; i< records.length; i++){
+            if (i>0){
+                sb.append(", ");
+            }
+            sb.append(String.format("%d:{%s}", i, records[i].tConst ));
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

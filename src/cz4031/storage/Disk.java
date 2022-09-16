@@ -3,15 +3,22 @@ package cz4031.storage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cz4031.util.Log;
+
 public class Disk {
     private static final String TAG = "Disk";
     
+    //size of disk
     int diskSize; 
+    //size of block
     int blockSize;
+    //max amount of block in disk
     int maxBlockNum; 
+    //amount of records
     int recordNum; 
+    //blocks in a disk
     ArrayList<Block> blocks; 
-    
+
     public Disk(int diskSize, int blockSize) { 
     	this.diskSize = diskSize; 
     	this.blockSize = blockSize; 
@@ -36,13 +43,13 @@ public class Disk {
     	return blockCount() * blockSize; 
     }
     
-    //insert the records into the first available block 
-    public Address insertRecord(Record record ) throws Exception {
-    	int blockId = availableBlockId(); 
+    //insert the records into the first available block
+    public Address insertRecord(Record record) throws Exception {
+    	int blockId = firstAvailableBlockId(); 
     	return insertRecord(blockId, record); 
     }
     
-    //insert record into last block 
+    //insert record into last block ,if last block not available, record will be inserted into a newly created block
     public Address appendRecord(Record record) throws Exception{
         int blockId = lastBlockId();
         return insertRecord(blockId, record);
@@ -55,7 +62,7 @@ public class Disk {
         }
 
         // if block isn't available or doesn't exist, create a new block to insert to
-        if (block == null || !block.isAvailable()) { //hasn't been declared in block class yet
+        if (block == null || !block.isAvailable()) { 
             if (blocks.size() == maxBlockNum) {
                 throw new Exception("Insufficient space on disk for insertion.");
             }
@@ -68,10 +75,10 @@ public class Disk {
         return new Address(blockId, offset);
     }
 
-    public int availableBlockId(){
+    public int firstAvailableBlockId(){
         int blockId = -1;
         for(int i=0; i<blocks.size(); i++){
-            if(blocks.get(i).isAvailable()){ //hasn't been declared in block class, need to ask whoever wrote that to include it 
+            if(blocks.get(i).isAvailable()){ 
                 blockId = i;
                 break;
             }
@@ -80,7 +87,13 @@ public class Disk {
     }
 
     public int lastBlockId(){
-        return blocks.size()>0? blocks.size()-1:-1;
+        if(blocks.size()>0){
+            return blocks.size() - 1;     
+        }
+        else{
+            return -1;
+        }
+        //return blocks.size()>0? blocks.size()-1:-1;
     }
 
     public Block getBlock(int blockId){
@@ -95,6 +108,19 @@ public class Disk {
         return getRecord(address.getBlockId(), address.getOffset());
     }
 
+    public boolean deleteRecord(int blockId, int offset) {
+        boolean correct = getBlock(blockId).deleteRecord(offset);
+        if (correct) {
+            recordNum--;
+        }
+        return correct;
+    }
+
+    public void deleteRecords(ArrayList<Address> recordAddresses){
+        for (Address address: recordAddresses) {
+            deleteRecord(address.getBlockId(), address.getOffset());
+        }
+    }
     public ArrayList<Record> getRecords(ArrayList<Address> addresses ){
         HashMap<Integer, Block> cache = new HashMap<>();
         ArrayList<Record> records = new ArrayList<>();
@@ -109,28 +135,13 @@ public class Disk {
                 cache.put(address.getBlockId(), tempBlk);
                 blkAccess++;
             } else { //accessing the block from cache, no block access
-            }
 
+            }
             Record record = tempBlk.getRecord(address.getOffset());
-            records.add( record ); //log is in utilities class
+            Log.defaut("Disk Access", String.format("%s read: blockId=%4d, \toffset=%d, \trecord=%s", cacheRead?"Cache":"Disk", address.blockID, address.offset, record));
+            records.add(record); //log is in utilities class
         }
+        Log.defaut(TAG, String.format("Retrieved %d records with %d block access", records.size(), blkAccess));
         return records; //log is in utilities class
     }
-
-
-    public boolean deleteRecord(int blockId, int offset) {
-        boolean correct = getBlock(blockId).deleteRecord(offset);
-        if (correct) {
-            recordNum--;
-        }
-        return correct;
-    }
-
-    public void deleteRecords(ArrayList<Address> recordAddresses){
-        for (Address address: recordAddresses) {
-            deleteRecord(address.getBlockId(), address.getOffset());
-        }
-    }
-
-
 }

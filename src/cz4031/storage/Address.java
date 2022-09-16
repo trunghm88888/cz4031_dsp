@@ -1,7 +1,13 @@
 package cz4031.storage;
 
+/**
+ * Class representing the logical address of a record
+ */
 public class Address{
+    
+    //Id of block
     int blockID;
+    //relative offset amout
     int offset;
 
     public Address(int blockID, int offset){
