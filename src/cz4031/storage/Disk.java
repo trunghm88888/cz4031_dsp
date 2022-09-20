@@ -2,20 +2,22 @@ package cz4031.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import cz4031.util.Log;
 
 public class Disk {
-    private static final String TAG = "Disk";
     
     //size of disk
-    int diskSize; 
+    int diskSize;
+
     //size of block
     int blockSize;
+
     //max amount of block in disk
-    int maxBlockNum; 
-    //amount of records
-    int recordNum; 
+    int maxBlockNum;
+
     //blocks in a disk
     ArrayList<Block> blocks; 
 
@@ -23,24 +25,17 @@ public class Disk {
     	this.diskSize = diskSize; 
     	this.blockSize = blockSize; 
     	this.maxBlockNum = diskSize / blockSize; 
-    	this.blocks = new ArrayList<>(); 
-    	this.recordNum = 0;
+    	this.blocks = new ArrayList<>();
     }
    
     //returns the total number of blocks that exist in the storage  
     public int blockCount() {
     	return blocks.size(); 
     }
-   
-    //returns the total number of records that exist in the storage 
-    public int recordNum() {
-    	return recordNum; 
-    }
-    
-    
+
     //returns the used size of storage
     public int usedSpace() { 
-    	return blockCount() * blockSize; 
+    	return blocks.size() * blockSize;
     }
     
     //insert the records into the first available block
@@ -71,7 +66,6 @@ public class Disk {
             blockId = lastBlockId();
         }
         int offset = block.insertRecord(record);
-        recordNum++;
         return new Address(blockId, offset);
     }
 
@@ -109,11 +103,7 @@ public class Disk {
     }
 
     public boolean deleteRecord(int blockId, int offset) {
-        boolean correct = getBlock(blockId).deleteRecord(offset);
-        if (correct) {
-            recordNum--;
-        }
-        return correct;
+        return getBlock(blockId).deleteRecord(offset);
     }
 
     public void deleteRecords(ArrayList<Address> recordAddresses){
@@ -121,27 +111,29 @@ public class Disk {
             deleteRecord(address.getBlockId(), address.getOffset());
         }
     }
-    public ArrayList<Record> getRecords(ArrayList<Address> addresses ){
-        HashMap<Integer, Block> cache = new HashMap<>();
+    public ArrayList<Record> getRecords(ArrayList<Address> addresses, boolean verbose){
         ArrayList<Record> records = new ArrayList<>();
-        int blkAccess = 0;
-        Block tempBlk = null;
-        for (Address address: addresses) {
-            //try searching from cache first, before accessing from disk
-            tempBlk = cache.get(address.getBlockId());
-            boolean cacheRead = tempBlk != null;
-            if (tempBlk == null){
-                tempBlk = getBlock(address.getBlockId());
-                cache.put(address.getBlockId(), tempBlk);
-                blkAccess++;
-            } else { //accessing the block from cache, no block access
 
-            }
+        // data structure for storing the blocks accessed
+        Set<Integer> accessedBlockIds = null;
+        if (verbose)
+            accessedBlockIds = new HashSet<>();
+
+        Block tempBlk;
+        for (Address address: addresses) {
+            // try searching from cache first, before accessing from disk
+            tempBlk = getBlock(address.getBlockId());
             Record record = tempBlk.getRecord(address.getOffset());
-            Log.defaut("Disk Access", String.format("%s read: blockId=%4d, \toffset=%d, \trecord=%s", cacheRead?"Cache":"Disk", address.blockID, address.offset, record));
-            records.add(record); //log is in utilities class
+            if (verbose)
+                accessedBlockIds.add(address.getBlockId());
+            records.add(record);
         }
-        Log.defaut(TAG, String.format("Retrieved %d records with %d block access", records.size(), blkAccess));
+
+        // displaying the accessed blocks
+        if (verbose) {
+            System.out.printf("Accessed %d blocks. Contents:\n", accessedBlockIds.size());
+            accessedBlockIds.forEach(id -> System.out.printf("Block %d: " + getBlock(id), id));
+        }
         return records; //log is in utilities class
     }
 }

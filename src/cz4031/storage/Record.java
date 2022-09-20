@@ -14,38 +14,8 @@ public class Record {
 		this.numVot = numVot;
 	}
 	
-	//Get Method for tConst
-	public String getTConst() {
-		return tConst;
-	}
-
-	//Set Method for tConst
-	public void setTConst(String tConst) {
-		this.tConst = tConst;
-	}
-
-	//Get Method for average rating
-	public float getAvgRat() {
-		return avgRat;
-	}
-	
-	//Set Method for average rating
-	public void setAvgRat(float avgRat) {
-		this.avgRat = avgRat;
-	}
-
-	//Get Method for number of votes
-	public int getNumVot() {
-		return numVot;
-	}
-
-	//Set Method for number of votes
-	public void setNumVot(int numVot) {
-		this.numVot = numVot;
-	}
-	
-	//Method to return size of 3 arguments
-	// tConst is 9 char, rating is float so 4B and votes is integer so 4B also
+	// Method to return size of 3 arguments
+	// tConst is fixed-size 9 char, rating is float so 4B and votes is integer so 4B also
 	public static int size() {
 		return 17;
 	}

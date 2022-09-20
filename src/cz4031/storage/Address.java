@@ -7,7 +7,7 @@ public class Address{
     
     //Id of block
     int blockID;
-    //relative offset amout
+    //relative offset
     int offset;
 
     public Address(int blockID, int offset){
@@ -31,6 +31,6 @@ public class Address{
     }
 
     public String toString(){
-        return String.format("@%d-%d", blockID, offset);
+        return String.format("Record@%d-%d", blockID, offset);
     }
 }

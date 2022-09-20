@@ -37,9 +37,8 @@ public class Block {
         for (int i = 0;i< records.length;i++) {
             if(records[i] == null){
                 records[i] = r;
-                int offset = i;
                 this.curRecords++;
-                return offset;
+                return i;
             }
         }
         // no space to insert record
@@ -58,27 +57,20 @@ public class Block {
         return false;
     }
 
-    /* 
-    public String toString() {
-        StringBuilder res = new StringBuilder("Block@" + this.hashCode() + "\n"
-                + "Total records: " + totalRecords + "\n"
-                + "Content: ");
-        for (Record r : records) {
-            res.append(r).append(", ");
-        }
-        return res.toString();
-    }
-    */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i=0; i< records.length; i++){
-            if (i>0){
-                sb.append(", ");
-            }
-            sb.append(String.format("%d:{%s}", i, records[i].tConst ));
+        StringBuilder res = new StringBuilder("Total records: " + totalRecords + "\n" + "Content: ");
+        int i;
+        for (i = 0; i < curRecords && i < 5; i++) {
+            Record r = records[i];
+            if (r != null)
+                res.append(r).append(", ");
         }
-        sb.append("]");
-        return sb.toString();
+        if (i < curRecords)
+            return res.append("...\n").toString();
+        else {
+            res.replace(res.length() - 2, res.length(), ".");
+            return res.toString();
+        }
     }
 }
