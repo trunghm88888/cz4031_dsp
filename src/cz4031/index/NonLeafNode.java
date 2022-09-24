@@ -3,17 +3,17 @@ import cz4031.util.Log;
 import cz4031.storage.Address;
 import java.util.ArrayList;
 
-//NodeLeafNode parent/root of other nodes internel or not
+// NodeLeafNode parent/root of other nodes internel or not
 // n keys
 // n + 1 children
 public class NonLeafNode extends Node{
     private static final String TAG = "NonLeaf-Node";
-    private ArrayList<Node> children;
+    protected ArrayList<Node> children;
 
     // constructor
     public NonLeafNode() {
         super();
-        this.children = new ArrayList<Node>();
+        this.children = new ArrayList<>();
     }
 
     // return arraylist of all children it points to
@@ -26,6 +26,26 @@ public class NonLeafNode extends Node{
         return children.get(index);
     }
 
+    public int findSmallestKey() {
+        if (this.children.size() == 0)
+            throw new RuntimeException("Trying to find smallest key of empty node");
+
+        Node cur = this.children.get(0);
+        while (cur instanceof NonLeafNode) {
+            cur = ((NonLeafNode) cur).children.get(0);
+        }
+
+        return ((LeafNode) cur).findSmallestKey();
+    }
+
+    public void deleteNode() {
+        this.deleteChildren();
+        // resetting
+        this.isLeaf = false;
+        this.isRoot = false;
+        this.keys = new ArrayList<Integer>();
+    }
+
     // add child
     public int addChild(Node childNode) {
 
@@ -33,7 +53,7 @@ public class NonLeafNode extends Node{
         if (children.size() == 0) {
             children.add(childNode);
             childNode.setParent(this);
-            //index whre child-Node was added
+            //index where child-Node was added
             return 0;
         }
 
@@ -45,7 +65,6 @@ public class NonLeafNode extends Node{
 
         int index;
         if (smallest_childNode_key < smallest_key) {
-
             this.addKey(smallest_key);
             this.children.add(0, childNode);
             index = 0;
@@ -106,17 +125,34 @@ public class NonLeafNode extends Node{
     }
 
     // get the child before given child Node
-    public Node getBefore(Node childNode) {
+    public LeafNode getPrevLeaf(Node childNode) {
+        Node cur;
+        if (children.indexOf(childNode) != 0) {
+            if (childNode instanceof LeafNode) {
+                return (LeafNode) this.children.get(children.indexOf(childNode) - 1);
+            } else {
+                cur = this.getChildNode(this.children.size() - 1);
+                while (cur instanceof NonLeafNode)
+                    cur = this.getChildNode(this.children.size() - 1);
+                return (LeafNode) cur;
+            }
+        }
+        else {
+            return getPrevLeaf(parentNode);
+        }
+    }
 
-        if (children.indexOf(childNode) != 0)
-            return children.get(children.indexOf(childNode)-1);
+    // get the child before
+    public Node getBefore(Node node) {
+
+        if (children.indexOf(node) != 0)
+            return children.get(children.indexOf(node)-1);
 
         return null;
     }
 
     // get the child after given chold Node
     public Node getAfter(Node childNode) {
-
         if (children.indexOf(childNode) != children.size()-1)
             return children.get(children.indexOf(childNode)+1);
 

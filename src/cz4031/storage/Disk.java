@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import cz4031.util.Log;
+import cz4031.util.Utilities;
 
 public class Disk {
+
+    private static final String TAG = "Disk";
     
     //size of disk
     int diskSize;
@@ -121,7 +125,6 @@ public class Disk {
 
         Block tempBlk;
         for (Address address: addresses) {
-            // try searching from cache first, before accessing from disk
             tempBlk = getBlock(address.getBlockId());
             Record record = tempBlk.getRecord(address.getOffset());
             if (verbose)
@@ -131,9 +134,17 @@ public class Disk {
 
         // displaying the accessed blocks
         if (verbose) {
-            System.out.printf("Accessed %d blocks. Contents:\n", accessedBlockIds.size());
-            accessedBlockIds.forEach(id -> System.out.printf("Block %d: " + getBlock(id), id));
+            System.out.printf("Accessed %d data blocks. Contents:\n", accessedBlockIds.size());
+            accessedBlockIds
+                    .stream().limit(5).collect(Collectors.toSet())
+                    .forEach(id -> System.out.printf("Block %d: " + getBlock(id) + "\n", id));
         }
-        return records; //log is in utilities class
+        return records;
+    }
+    public void log(){
+        Log.defaut(TAG, String.format("disk size = %s / %s", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) ));
+        Log.defaut(TAG, String.format("block size = %s", Utilities.formatFileSize(blockSize)));
+        Log.defaut(TAG, String.format("blocks = %,d / %,d", blocks.size(), maxBlockNum));
+        //Log.defaut(TAG, String.format("records = %,d", recordCounts));
     }
 }
