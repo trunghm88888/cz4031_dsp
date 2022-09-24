@@ -7,5 +7,5 @@ public interface Constants {
     int BLOCK_SIZE_500 = 500;
 
     String PROJECT_DIRECTORY = "Database";
-    String DATA_FILE_PATH = "data.tsv";
+    String DATA_FILE_PATH = "../resources/data.tsv";
 }

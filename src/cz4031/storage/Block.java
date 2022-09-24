@@ -60,17 +60,14 @@ public class Block {
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder("Total records: " + totalRecords + "\n" + "Content: ");
-        int i;
-        for (i = 0; i < curRecords && i < 5; i++) {
+
+        for (int i = 0; i < curRecords; i++) {
             Record r = records[i];
             if (r != null)
                 res.append(r).append(", ");
         }
-        if (i < curRecords)
-            return res.append("...\n").toString();
-        else {
-            res.replace(res.length() - 2, res.length(), ".");
-            return res.toString();
-        }
+
+        res.replace(res.length() - 2, res.length(), ".");
+        return res.toString();
     }
 }
