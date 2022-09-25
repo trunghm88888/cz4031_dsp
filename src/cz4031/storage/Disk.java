@@ -114,30 +114,27 @@ public class Disk {
             deleteRecord(address.getBlockId(), address.getOffset());
         }
     }
-    public ArrayList<Record> getRecords(ArrayList<Address> addresses, boolean verbose){
+    public ArrayList<Record> getRecords(ArrayList<Address> addresses){
         ArrayList<Record> records = new ArrayList<>();
 
         // data structure for storing the blocks accessed
         Set<Integer> accessedBlockIds = null;
-        if (verbose)
-            accessedBlockIds = new HashSet<>();
+        accessedBlockIds = new HashSet<>();
 
         Block tempBlk;
         for (Address address: addresses) {
             tempBlk = getBlock(address.getBlockId());
             Record record = tempBlk.getRecord(address.getOffset());
-            if (verbose)
-                accessedBlockIds.add(address.getBlockId());
+            accessedBlockIds.add(address.getBlockId());
             records.add(record);
         }
 
         // displaying the accessed blocks
-        if (verbose) {
-            System.out.printf("Accessed %d data blocks. Contents:\n", accessedBlockIds.size());
-            accessedBlockIds
-                    .stream().limit(5).collect(Collectors.toSet())
-                    .forEach(id -> System.out.printf("Block %d: " + getBlock(id) + "\n", id));
-        }
+        System.out.printf("Accessed %d data blocks. Contents:\n", accessedBlockIds.size());
+        accessedBlockIds
+                .stream().limit(5).collect(Collectors.toSet())
+                .forEach(id -> System.out.printf("Block %d: " + getBlock(id) + "\n", id));
+
         return records;
     }
     public void log(){

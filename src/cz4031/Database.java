@@ -53,8 +53,8 @@ public class Database implements Constants {
 
     public void doExperiment3(){
         Log.defaut(TAG,"Experiment 3 initalised, retreiving records with numVotes of 500");
-        ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(500, true);
-        ArrayList<Record> records = disk.getRecords(e3RecordAddresses, true);
+        ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(500);
+        ArrayList<Record> records = disk.getRecords(e3RecordAddresses);
         // records collected, do calculate average rating
         double avgRating = 0;
         for (Record record: records) {
@@ -65,9 +65,9 @@ public class Database implements Constants {
     }
 
     public void doExperiment4(){
-        Log.defaut(TAG,"Experiment 4 initalised, getting records with numVotes between 30k-40k ");
-        ArrayList<Address> e4RecordAddresses = index.getRecordsWithKeyInRange(30000,40000, true);
-        ArrayList<Record> records = disk.getRecords(e4RecordAddresses, true);
+        Log.defaut(TAG,"Experiment 4 initalised, getting records with numVotes between 30000-40000 ");
+        ArrayList<Address> e4RecordAddresses = index.getRecordsWithKeyInRange(30000,40000);
+        ArrayList<Record> records = disk.getRecords(e4RecordAddresses);
         // records collected, do calculate average rating
         double avgRating = 0;
         for (Record record: records) {
@@ -89,7 +89,7 @@ public class Database implements Constants {
             System.out.println(String.format("[%d] %s",i+1, options[i]));
         }
         if (includeQuit){
-            System.out.println("[3] quit");
+            System.out.println("[3] EXIT");
         }
         System.out.print("Enter Option: ");
         return scanner.nextLine();
