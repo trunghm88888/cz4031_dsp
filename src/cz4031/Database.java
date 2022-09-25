@@ -23,27 +23,26 @@ public class Database implements Constants {
 
 
     public void run(int blockSize) throws Exception {
-        // read records from data file
+        // load IMDB file
         List<Record> records = Utilities.loadRecord(DATA_FILE_PATH);
 
         disk = new Disk(Constants.DISK_SIZE, blockSize);
         index = new BpTree(blockSize);
 
         Log.defaut(TAG,"Running program with block size of "+blockSize);
-        Log.defaut(TAG,"Prepare to insert records into storage and create index");
+        Log.defaut(TAG,"Initalising record insertion to stoage and building Index");
         Address recordAddr;
         for (Record r: records) {
             // inserting records into disk and create index!
             recordAddr = disk.appendRecord(r);
-            index.insert( r.numVot, recordAddr);
+            index.insert(r.numVot, recordAddr);
         }
-        Log.defaut(TAG,"Record inserted into storage and index created");
+        Log.defaut(TAG,"Records inserted and Index created");
         disk.log();
 //		index.logStructure(1); // printing root and first level?
 
         index.treeStats();
 
-        // TODO do experiences
         pause("\nPress any key to start Experiment 3\n");
         doExperiment3();
         pause("\nPress any key to start Experiment 4\n");
