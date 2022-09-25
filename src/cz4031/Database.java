@@ -65,7 +65,7 @@ public class Database implements Constants {
     }
 
     public void doExperiment4(){
-        Log.defaut(TAG,"Experiment 4 started, getting records with numVotes between 30k-40k ");
+        Log.defaut(TAG,"Experiment 4 initalised, getting records with numVotes between 30k-40k ");
         ArrayList<Address> e4RecordAddresses = index.getRecordsWithKeyInRange(30000,40000, true);
         ArrayList<Record> records = disk.getRecords(e4RecordAddresses, true);
         // records collected, do calculate average rating
@@ -89,14 +89,15 @@ public class Database implements Constants {
             System.out.println(String.format("[%d] %s",i+1, options[i]));
         }
         if (includeQuit){
-            System.out.println("[q] quit");
+            System.out.println("[3] quit");
         }
-        System.out.print("Enter the option: ");
+        System.out.print("Enter Option: ");
         return scanner.nextLine();
     }
     private void pause(){
         pause(null);
     }
+    
     private void pause(String message){
         if (message == null){
             message = "Press any key to continue";
@@ -124,90 +125,9 @@ public class Database implements Constants {
                     run(BLOCK_SIZE_500);
                     pause();
                     break;
-//                case "3":
-//                    displayLogSetting();
-//                    break;
             }
-        } while (!input.equals("q"));
+        } while (!input.equals("3"));
     }
-
-//    public void displayLogSetting(){
-//        String[] menu;
-//        String input;
-//        do {
-//            menu = new String[]{
-//                    String.format("Adjust log level (current: %s)", Log.getLogLevelString()),
-//                    String.format("include timestamp (current %b)", Log.isTimestampEnabled()),
-//                    String.format("change timestamp format (current: %s)", Log.getTimestampFormat())
-//            };
-//            System.out.println("Log Setting");
-//            input = getOptions(menu, true);
-//            switch (input){
-//                case "1":
-//                    adjustLogLevel();
-//                    break;
-//                case "2":
-//                    adjustLogTimestamp();
-//                    break;
-//                case "3":
-//                    adjustLogTimestampFormat();
-//                    break;
-//            }
-//        } while (!input.equals("q"));
-//
-//    }
-//
-//    private void adjustLogLevel(){
-//        String[] menu = {
-//                "None", "Error", "Warn", "Info", "Debug", "Verbose"
-//        };
-//        String input = getOptions(menu, false);
-//        switch (input){
-//            case "1":
-//                Log.setLevel(Log.LEVEL_NONE);
-//                break;
-//            case "2":
-//                Log.setLevel(Log.LEVEL_ERROR);
-//                break;
-//            case "3":
-//                Log.setLevel(Log.LEVEL_WARN);
-//                break;
-//            case "4":
-//                Log.setLevel(Log.LEVEL_INFO);
-//                break;
-//            case "5":
-//                Log.setLevel(Log.LEVEL_DEBUG);
-//                break;
-//            case "6":
-//                Log.setLevel(Log.LEVEL_VERBOSE);
-//                break;
-//        }
-//    }
-//    private void adjustLogTimestamp(){
-//        String[] menu = {"Enable", "Disable"};
-//        String input = getOptions(menu, false);
-//        switch (input){
-//            case "1":
-//                Log.setTimestampEnabled(true);
-//                break;
-//            case "2":
-//                Log.setTimestampEnabled(false);
-//                break;
-//        }
-//    }
-//    private void adjustLogTimestampFormat(){
-//        String[] menu = {"Detail", "Simple"};
-//        String input = getOptions(menu, false);
-//        switch (input){
-//            case "1":
-//                Log.setTimestampFormat(Log.FORMAT_DETAIL);
-//                break;
-//            case "2":
-//                Log.setTimestampFormat(Log.FORMAT_SIMPLE);
-//                break;
-//        }
-//    }
-
 
     public static void main(String[] args) {
         try {

@@ -15,7 +15,6 @@ public class Disk {
     
     //size of disk
     int diskSize;
-
     //size of block
     int blockSize;
 
