@@ -44,16 +44,16 @@ public class Database implements Constants {
         index.treeStats();
 
         // TODO do experiences
-        pause("Press any key to start Experiment 3");
+        pause("\nPress any key to start Experiment 3\n");
         doExperiment3();
-        pause("Press any key to start Experiment 4");
+        pause("\nPress any key to start Experiment 4\n");
         doExperiment4();
-        pause("Press any key to start Experiment 5");
+        pause("\nPress any key to start Experiment 5\n");
         doExperiment5();
     }
 
     public void doExperiment3(){
-        Log.defaut(TAG,"Experiment 3 started, getting records with numVotes of 500");
+        Log.defaut(TAG,"Experiment 3 initalised, retreiving records with numVotes of 500");
         ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(500, true);
         ArrayList<Record> records = disk.getRecords(e3RecordAddresses, true);
         // records collected, do calculate average rating
@@ -108,12 +108,13 @@ public class Database implements Constants {
 
     public void displayMainMenu() throws Exception {
         String[] menu = {
-                "Experiment with block size 200B",
-                "Experiment with block size 500B",
+                "200B",
+                "500B",
         };
         String input;
         do {
             System.out.println("CZ4031 - Database Assignment 1 (Group "+GROUP_NUM+")");
+            System.out.println("Select Experiment Block Size:");
             input = getOptions(menu, true);
             switch (input) {
                 case "1":
