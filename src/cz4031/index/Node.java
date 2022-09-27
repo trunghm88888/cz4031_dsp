@@ -10,9 +10,7 @@ public abstract class Node {
 
     // constructor
     public Node() {
-        //key 'index' to a record or child
         keys = new ArrayList<>();
-        //asume to be nonLead and not root 
         isLeaf = false;
         isRoot = false;
     }
@@ -60,21 +58,18 @@ public abstract class Node {
 
     // add key
     public int addKey(int key) {
-
-        // default if record have no keys
         if (this.getKeys().size() == 0) {
             this.keys.add(key);
             return 0;
         }
 
         int i = 0;
-        while (i < keys.size() && key >= keys.get(i))
+        while (i < keys.size() && key > keys.get(i))
             i++;
         this.keys.add(i, key);
         return i;
     }
 
-    // for deleting keys before splitting
     //delete all keys in node
     public void deleteKeys() {
         this.keys = new ArrayList<>();
@@ -86,7 +81,8 @@ public abstract class Node {
     // delete the node
     public abstract void deleteNode();
 
-    //To be implemented base of actual node type
-    abstract void logStructure();
-    
+    @Override
+    public String toString() {
+        return this.keys.toString();
+    }
 }

@@ -100,21 +100,21 @@ public class LeafNode extends Node {
         records.remove(index);
     }
 
-    @Override
-    void logStructure() {
-        Log.defaut(TAG, this.toString());
-    }
+//    @Override
+//    void logStructure() {
+//        Log.defaut(TAG, this.toString());
+//    }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i=0; i<getKeys().size(); i++){
-            if (i>0){
-                sb.append(", ");
-            }
-             sb.append(String.format("%d:{%d=>%s}", i, getKey(i), getRecord(i)));
-        }
-        sb.append("]");
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder("[");
+//        for (int i=0; i<getKeys().size(); i++){
+//            if (i>0){
+//                sb.append(", ");
+//            }
+//             sb.append(String.format("%d:{%d=>%s}", i, getKey(i), getRecord(i)));
+//        }
+//        sb.append("]");
+//        return sb.toString();
+//    }
 }

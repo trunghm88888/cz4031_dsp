@@ -54,7 +54,7 @@ public class Database implements Constants {
 
     public void doExperiment3(){
         Log.defaut(TAG,"Experiment 3 started, getting records with numVotes of 500");
-        ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(500, true);
+        ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(1000, true);
         ArrayList<Record> records = disk.getRecords(e3RecordAddresses, true);
         // records collected, do calculate average rating
         double avgRating = 0;
@@ -79,7 +79,7 @@ public class Database implements Constants {
     }
 
     public void doExperiment5(){
-        index.deleteKey(2000);
+        index.deleteKey(1000);
         // TODO: get back address and delete records from storage
     }
 
