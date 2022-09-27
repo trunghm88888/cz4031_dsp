@@ -321,7 +321,7 @@ public class BpTree {
         return resetParent(copy, deletedCount);
     }
 
-    public ArrayList<Address> getRecordsWithKey(int key, boolean isVerbose){
+    public ArrayList<Address> getRecordsWithKey(int key){
         ArrayList<Address> result = new ArrayList<>();
         int blockAccess = 0; // access the root
         if (isVerbose){
@@ -331,23 +331,23 @@ public class BpTree {
         NonLeafNode nonLeafNode;
         // searching for leaf node with key
         while (!(curNode instanceof  LeafNode)){
-            nonLeafNode = (NonLeafNode) curNode;
+            NonLeafNode = (NonLeafNode) curNode;
             blockAccess++;
-            for (int i=0; i<nonLeafNode.getKeys().size(); i++) {
-                if (key <= nonLeafNode.getKey(i)){
+            for (int i=0; i<NonLeafNode.getKeys().size(); i++) {
+                if (key <= NonLeafNode.getKey(i)){
                     if (isVerbose){
-                        System.out.println(curNode);
-                        System.out.printf("Follow pointer [%d]: key(%d)<=curKey(%d)\n", i, key, nonLeafNode.getKey(i));
+                      System.out.println("Current Node: " + curNode.toString());
+                      System.out.println("Going to pointer (" + i + ") as key{" + key +"} <= curKey{" + NonLeafNode.getKey(i) + "}\n");
                     }
-                    curNode = nonLeafNode.getChildNode(i);
+                    curNode = NonLeafNode.getChildNode(i);
                     break;
                 }
-                if (i == nonLeafNode.getKeys().size()-1){
-                    if (isVerbose){
-                        System.out.println(curNode);
-                        System.out.printf("Follow pointer [%d+1]: last key and key(%d) > curKey(%d)\n", i, key, nonLeafNode.getKey(i));
+                if (i == NonLeafNode.getKeys().size()-1){
+                    if (isVerbose) {
+                      System.out.println("Current Node: " + curNode.toString());
+                      System.out.println("Going to pointer (" + i + "+1) as key{" + key +"} > curKey{" + NonLeafNode.getKey(i) + "}\n");                    
                     }
-                    curNode = nonLeafNode.getChildNode(i+1);
+                    curNode = NonLeafNode.getChildNode(i+1);
                     break;
                 }
             }
@@ -369,6 +369,7 @@ public class BpTree {
 
             curLeaf = curLeaf.getNext();
         }
+        
         if (isVerbose) {
             System.out.printf("input(%d): %d records found with %d node access\n", key, result.size(), blockAccess);
         }
@@ -384,13 +385,15 @@ public class BpTree {
         System.out.println("first child contents = " + first);
     }
 
-    public ArrayList<Address> getRecordsWithKeyInRange(int min, int max, boolean isVerbose){
+    public ArrayList<Address> getRecordsInRange(int min, int max){
         ArrayList<Address> result = new ArrayList<>();
         int nodeAccess = 1; // access the root
         int siblingAccess = 0;
-        if (isVerbose) {
-            Log.defaut("B+Tree.rangeSearch", "[Node Access] Access root node");
-        }
+
+        System.out.println("==============================\n" +
+                           "Searching Key Range in B+ Tree\n" +
+                           "==============================\n");
+        System.out.println("Entered Root Node");
         Node curNode = root;
         NonLeafNode NonLeafNode;
         // searching for leaf node with key
@@ -398,19 +401,15 @@ public class BpTree {
             NonLeafNode = (NonLeafNode) curNode;
             for (int i=0; i<NonLeafNode.getKeys().size(); i++) {
                 if ( min <= NonLeafNode.getKey(i)){
-                    if (isVerbose) {
-                        Log.defaut("B+Tree.rangeSearch", curNode.toString());
-                        Log.defaut("B+Tree.rangeSearch", String.format("[Node Access] follow pointer [%d]: min(%d)<=curKey(%d)", i, min, NonLeafNode.getKey(i)));
-                    }
+                    System.out.println("Current Node: " + curNode.toString());
+                    System.out.println("Going to pointer (" + i + ") as min{" + min +"} <= curKey{" + NonLeafNode.getKey(i) + "}\n");
                     curNode = NonLeafNode.getChildNode(i);
                     nodeAccess++;
                     break;
                 }
                 if (i == NonLeafNode.getKeys().size()-1){
-                    if (isVerbose) {
-                        Log.defaut("B+Tree.rangeSearch", curNode.toString());
-                        Log.defaut("B+Tree.rangeSearch", String.format("[Node Access] follow pointer [%d+1]: last key and min(%d)>curKey(%d)", i, min, NonLeafNode.getKey(i)));
-                    }
+                    System.out.println("Current Node: " + curNode.toString());
+                    System.out.println("Going to pointer (" + i + "+1) as min{" + min +"} > curKey{" + NonLeafNode.getKey(i) + "}\n");
                     curNode = NonLeafNode.getChildNode(i+1);
                     nodeAccess++;
                     break;
@@ -446,13 +445,9 @@ public class BpTree {
             }
         }
         if (siblingAccess > 0){
-            if (isVerbose) {
-                Log.defaut("B+Tree.rangeSearch", "[Node Access] " + siblingAccess + " sibling node access");
-            }
+            System.out.println("A total of "+ siblingAccess +" sibiling node was accessed");
         }
-        if (isVerbose) {
-            Log.defaut("B+Tree.rangeSearch", String.format("input(%d, %d): %d records found with %d node access", min, max, result.size(), nodeAccess));
-        }
+        System.out.println( "For the range of [" +min+ "," +max+ "] after "+nodeAccess+" node access " +result.size()+ " records found to satisfy the range. \n");
         return result;
     }
 

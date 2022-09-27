@@ -31,6 +31,6 @@ public class Address{
     }
 
     public String toString(){
-        return String.format("Record@%d-%d", blockID, offset);
+        return String.format("At blk %d offset %d", blockID, offset);
     }
 }
