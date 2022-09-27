@@ -22,7 +22,7 @@ public class Database implements Constants {
     private BpTree index;
 
 
-    public void run(int blockSize) throws Exception {
+    public void runDatabase(int blockSize) throws Exception {
         // load IMDB file
         List<Record> records = Utilities.loadRecord(DATA_FILE_PATH);
 
@@ -117,11 +117,11 @@ public class Database implements Constants {
             input = getOptions(menu, true);
             switch (input) {
                 case "1":
-                    run(BLOCK_SIZE_200);
+                    runDatabase(BLOCK_SIZE_200);
                     pause();
                     break;
                 case "2" :
-                    run(BLOCK_SIZE_500);
+                    runDatabase(BLOCK_SIZE_500);
                     pause();
                     break;
             }
