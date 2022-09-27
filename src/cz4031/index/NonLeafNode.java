@@ -157,10 +157,4 @@ public class NonLeafNode extends Node{
 
         return null;
     }
-
-//
-//    @Override
-//    void logStructure() {
-//        Log.defaut(TAG, this.toString());
-//    }
 }

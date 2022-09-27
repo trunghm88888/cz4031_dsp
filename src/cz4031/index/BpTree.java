@@ -46,7 +46,7 @@ public class BpTree {
                 parent = (NonLeafNode) parent.getChildNode(0);
             } else {
                 int  i = 0;
-                while (i < keys.size() && key > keys.get(i))
+                while (i < keys.size() && key >= keys.get(i))
                     i++;
                 parent = (NonLeafNode) parent.getChildNode(i);
             }
@@ -436,9 +436,6 @@ public class BpTree {
                     break;
                 }
             }
-        }
-        if (siblingAccess > 0){
-            System.out.println("A total of "+ siblingAccess +" sibiling node was accessed");
         }
         System.out.println( "For the range of [" +min+ "," +max+ "] after "+nodeAccess+" node access " +result.size()+ " records found to satisfy the range. \n");
         return result;
