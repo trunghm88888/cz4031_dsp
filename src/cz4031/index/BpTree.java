@@ -1,13 +1,12 @@
 package cz4031.index;
 
 import cz4031.storage.Address;
-import cz4031.util.Log;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class BpTree {
-    private static final String TAG = "B+Tree";
+
     private static final int SIZE_POINTER = 8; // for 64 bits system
     private static final int SIZE_KEY = 4; // for int value
     int maxKeys;
@@ -365,7 +364,6 @@ public class BpTree {
 
             curLeaf = curLeaf.getNext();
         }
-        
 
         System.out.printf("input(%d): %d records found with %d node access\n", key, result.size(), blockAccess);
         return result;

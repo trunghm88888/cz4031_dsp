@@ -7,16 +7,11 @@ import cz4031.storage.Record;
 import cz4031.util.Log;
 import cz4031.util.Utilities;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
 public class Database implements Constants {
-    private static final String TAG = "App";
     Scanner scanner = new Scanner(System.in);
     private Disk disk;
     private BpTree index;
@@ -51,9 +46,9 @@ public class Database implements Constants {
     }
 
     public void doExperiment3(){
-        Log.defaut(TAG,"Experiment 3 started, getting records with numVotes of 500");
-        ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(1000);
-        ArrayList<Record> records = disk.getRecords(e3RecordAddresses);
+        System.out.println("Experiment 3: Retreiving records with numVotes = 500");
+        //ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(1000);
+        ArrayList<Record> records = disk.getRecords(index.getRecordsWithKey(500));
         // records collected, do calculate average rating
         double avgRating = 0;
         for (Record record: records) {
@@ -64,9 +59,9 @@ public class Database implements Constants {
     }
 
     public void doExperiment4(){
-        Log.defaut(TAG,"Experiment 4 initalised, getting records with numVotes between 30000-40000 ");
-        ArrayList<Address> e4RecordAddresses = index.getRecordsInRange(30000,40000);
-        ArrayList<Record> records = disk.getRecords(e4RecordAddresses);
+        System.out.println("Experiment 4: Retreiving records with numVotes from: 30000-40000");
+        //ArrayList<Address> e4RecordAddresses = index.getRecordsInRange(30000,40000);
+        ArrayList<Record> records = disk.getRecords(index.getRecordsInRange(30000,40000));
         // records collected, do calculate average rating
         double avgRating = 0;
         for (Record record: records) {
@@ -77,6 +72,7 @@ public class Database implements Constants {
     }
 
     public void doExperiment5(){
+        System.out.println("Experiment 5: Delete records with numVotes = 1000 ");
         index.deleteKey(1000);
         // TODO: get back address and delete records from storage
     }
