@@ -64,7 +64,7 @@ public class NonLeafNode extends Node{
         int smallest_key = this.findSmallestKey();
 
         int index;
-        if (smallest_childNode_key < smallest_key) {
+        if (smallest_childNode_key <= smallest_key) {
             this.addKey(smallest_key);
             this.children.add(0, childNode);
             index = 0;
@@ -92,7 +92,6 @@ public class NonLeafNode extends Node{
         
         //add keys to this node
         for (int i = 0; i < children.size(); i++) {
-
             if (i != 0)
                 addKey(children.get(i).findSmallestKey());
         }
@@ -143,7 +142,7 @@ public class NonLeafNode extends Node{
     }
 
     // get the child before
-    public Node getBefore(Node node) {
+    public Node getPrevParent(Node node) {
 
         if (children.indexOf(node) != 0)
             return children.get(children.indexOf(node)-1);
@@ -152,29 +151,16 @@ public class NonLeafNode extends Node{
     }
 
     // get the child after given chold Node
-    public Node getAfter(Node childNode) {
+    public Node getNextParent(Node childNode) {
         if (children.indexOf(childNode) != children.size()-1)
             return children.get(children.indexOf(childNode)+1);
 
         return null;
     }
 
-
-    @Override
-    void logStructure() {
-        Log.defaut(TAG, this.toString());
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i=0; i<getKeys().size(); i++){
-            if (i>0){
-                sb.append(", ");
-            }
-            sb.append(String.format("%d:{%d}", i, getKey(i) ));
-        }
-        sb.append("]");
-        return sb.toString();
-    }
+//
+//    @Override
+//    void logStructure() {
+//        Log.defaut(TAG, this.toString());
+//    }
 }
