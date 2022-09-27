@@ -324,30 +324,26 @@ public class BpTree {
     public ArrayList<Address> getRecordsWithKey(int key){
         ArrayList<Address> result = new ArrayList<>();
         int blockAccess = 0; // access the root
-        if (isVerbose){
-            System.out.println("Access root node");
-        }
+    
+        System.out.println("Access root node");
+
         Node curNode = root;
         NonLeafNode nonLeafNode;
         // searching for leaf node with key
         while (!(curNode instanceof  LeafNode)){
-            NonLeafNode = (NonLeafNode) curNode;
+            nonLeafNode = (NonLeafNode) curNode;
             blockAccess++;
-            for (int i=0; i<NonLeafNode.getKeys().size(); i++) {
-                if (key <= NonLeafNode.getKey(i)){
-                    if (isVerbose){
-                      System.out.println("Current Node: " + curNode.toString());
-                      System.out.println("Going to pointer (" + i + ") as key{" + key +"} <= curKey{" + NonLeafNode.getKey(i) + "}\n");
-                    }
-                    curNode = NonLeafNode.getChildNode(i);
+            for (int i=0; i<nonLeafNode.getKeys().size(); i++) {
+                if (key <= nonLeafNode.getKey(i)){
+                    System.out.println("Current Node: " + curNode.toString());
+                    System.out.println("Going to pointer (" + i + ") as key{" + key +"} <= curKey{" + nonLeafNode.getKey(i) + "}\n");
+                    curNode = nonLeafNode.getChildNode(i);
                     break;
                 }
-                if (i == NonLeafNode.getKeys().size()-1){
-                    if (isVerbose) {
-                      System.out.println("Current Node: " + curNode.toString());
-                      System.out.println("Going to pointer (" + i + "+1) as key{" + key +"} > curKey{" + NonLeafNode.getKey(i) + "}\n");                    
-                    }
-                    curNode = NonLeafNode.getChildNode(i+1);
+                if (i == nonLeafNode.getKeys().size()-1){
+                    System.out.println("Current Node: " + curNode.toString());
+                    System.out.println("Going to pointer (" + i + "+1) as key{" + key +"} > curKey{" + nonLeafNode.getKey(i) + "}\n");                    
+                    curNode = nonLeafNode.getChildNode(i+1);
                     break;
                 }
             }
@@ -370,9 +366,8 @@ public class BpTree {
             curLeaf = curLeaf.getNext();
         }
         
-        if (isVerbose) {
-            System.out.printf("input(%d): %d records found with %d node access\n", key, result.size(), blockAccess);
-        }
+
+        System.out.printf("input(%d): %d records found with %d node access\n", key, result.size(), blockAccess);
         return result;
     }
 
