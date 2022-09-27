@@ -28,16 +28,15 @@ public class Database implements Constants {
 
         disk = new Disk(Constants.DISK_SIZE, blockSize);
         index = new BpTree(blockSize);
-
-        Log.defaut(TAG,"Running program with block size of "+blockSize);
-        Log.defaut(TAG,"Initalising record insertion to stoage and building Index");
+        System.out.println("Implementing database with block size: " + blockSize);
+        System.out.println("Initalising record insertion and Building Index...");
         Address recordAddr;
         for (Record r: records) {
             // inserting records into disk and create index!
             recordAddr = disk.appendRecord(r);
             index.insert(r.numVot, recordAddr);
         }
-        Log.defaut(TAG,"Records inserted and Index created");
+        System.out.println("COMPLETE: Records inserted and Index created");
         disk.log();
 //		index.logStructure(1); // printing root and first level?
 
