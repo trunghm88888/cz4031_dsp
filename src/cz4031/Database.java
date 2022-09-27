@@ -66,7 +66,7 @@ public class Database implements Constants {
 
     public void doExperiment4(){
         Log.defaut(TAG,"Experiment 4 initalised, getting records with numVotes between 30000-40000 ");
-        ArrayList<Address> e4RecordAddresses = index.getRecordsWithKeyInRange(30000,40000);
+        ArrayList<Address> e4RecordAddresses = index.getRecordsInRange(30000,40000);
         ArrayList<Record> records = disk.getRecords(e4RecordAddresses);
         // records collected, do calculate average rating
         double avgRating = 0;

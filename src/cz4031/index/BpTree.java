@@ -545,7 +545,7 @@ public class BpTree {
         Log.defaut("secondContents", "second child contents = " + ((NonLeafNode) root).getChildNode(1));
     }
 
-    public ArrayList<Address> getRecordsWithKeyInRange(int min, int max){
+    public ArrayList<Address> getRecordsInRange(int min, int max){
         ArrayList<Address> result = new ArrayList<>();
         int nodeAccess = 1; // access the root
         int siblingAccess = 0;
