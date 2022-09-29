@@ -10,11 +10,11 @@ public class Utilities{
     public static List<Record> loadRecord(String path) throws Exception {
         //df = datafile
 		File df = new File(path);
-		Log.defaut(TAG, "Inserting data records from " + path);
+		Log.defaultPrint(TAG, "Inserting data records from " + path);
 		if (!df.exists()) {
 			//try appeding with  current directory
 			df = new File(Constants.PROJECT_DIRECTORY, path);
-			Log.defaut(TAG,"Retry and load record from instead" + df.getAbsolutePath());
+			Log.defaultPrint(TAG,"Retry and load record from instead" + df.getAbsolutePath());
 
             //file does not exist
 			if (!df.exists()){
@@ -44,11 +44,11 @@ public class Utilities{
 				try {
 					br.close();
 				}catch (IOException e) {
-					Log.defaut(e.getMessage());
+					Log.defaultPrint(e.getMessage());
 				}
 			}
 		}
-		Log.defaut(TAG, "total records: "+records.size());
+		Log.defaultPrint(TAG, "total records: "+records.size());
 		//Analyzer.log();
 		return records;
 	}

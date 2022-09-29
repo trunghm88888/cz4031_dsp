@@ -187,7 +187,7 @@ public class BpTree {
             } else break;
         }
 
-        System.out.println("number of nodes deleted = " + deletedCount);
+        System.out.println("Number of nodes deleted = " + deletedCount);
         nodeCount -= deletedCount;
         treeStats();
     }
@@ -324,7 +324,7 @@ public class BpTree {
         ArrayList<Address> result = new ArrayList<>();
         int blockAccess = 0; // access the root
     
-        System.out.println("Access root node");
+        System.out.println("Accessing root node");
 
         Node curNode = root;
         NonLeafNode nonLeafNode;
@@ -373,9 +373,9 @@ public class BpTree {
         NonLeafNode rootCopy = (NonLeafNode) root;
         Node first = rootCopy.getChildNode(0);
 
-        System.out.println("n = " + maxKeys + ", number of nodes = " + nodeCount + ", height = " + height);
-        System.out.println("root node contents = " + root);
-        System.out.println("first child contents = " + first);
+        System.out.println("n = " + maxKeys + ", Number of nodes = " + nodeCount + ", Height = " + height);
+        System.out.println("Root node contents = " + root);
+        System.out.println("First child contents = " + first);
     }
 
     public ArrayList<Address> getRecordsInRange(int min, int max){

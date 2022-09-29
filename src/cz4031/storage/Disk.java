@@ -138,9 +138,8 @@ public class Disk {
         return records;
     }
     public void log(){
-        Log.defaut(TAG, String.format("disk size = %s / %s", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) ));
-        Log.defaut(TAG, String.format("block size = %s", Utilities.formatFileSize(blockSize)));
-        Log.defaut(TAG, String.format("blocks = %,d / %,d", blocks.size(), maxBlockNum));
-        //Log.defaut(TAG, String.format("records = %,d", recordCounts));
+        Log.defaultPrint(TAG, String.format("disk size = %s / %s", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) ));
+        Log.defaultPrint(TAG, String.format("block size = %s", Utilities.formatFileSize(blockSize)));
+        Log.defaultPrint(TAG, String.format("blocks = %,d / %,d", blocks.size(), maxBlockNum));
     }
 }

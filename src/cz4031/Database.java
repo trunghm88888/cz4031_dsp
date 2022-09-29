@@ -24,14 +24,14 @@ public class Database implements Constants {
         disk = new Disk(Constants.DISK_SIZE, blockSize);
         index = new BpTree(blockSize);
         System.out.println("Implementing database with block size: " + blockSize);
-        System.out.println("Initalising record insertion and Building Index...");
+        System.out.println("Initalising record insertion and building index...");
         Address recordAddr;
         for (Record r: records) {
             // inserting records into disk and create index!
             recordAddr = disk.appendRecord(r);
             index.insert(r.numVot, recordAddr);
         }
-        System.out.println("COMPLETE: Records inserted and Index created");
+        System.out.println("COMPLETED: Records inserted and index created");
         disk.log();
 //		index.logStructure(1); // printing root and first level?
 
@@ -55,7 +55,7 @@ public class Database implements Constants {
             avgRating += record.avgRat;
         }
         avgRating /= records.size();
-        Log.defaut("Average rating="+avgRating);
+        Log.defaultPrint("Average rating="+avgRating);
     }
 
     public void doExperiment4(){
@@ -68,7 +68,7 @@ public class Database implements Constants {
             avgRating += record.avgRat;
         }
         avgRating /= records.size();
-        Log.defaut("Average rating="+avgRating);
+        Log.defaultPrint("Average rating="+avgRating);
     }
 
     public void doExperiment5(){
@@ -108,7 +108,7 @@ public class Database implements Constants {
         };
         String input;
         do {
-            System.out.println("CZ4031 - Database Assignment 1 (Group "+GROUP_NUM+")");
+            System.out.println("CZ4031 - Database Assignment 1 (Group 1)");
             System.out.println("Select Experiment Block Size:");
             input = getOptions(menu, true);
             switch (input) {
@@ -127,7 +127,7 @@ public class Database implements Constants {
     public static void main(String[] args) {
         try {
             // Log.setLevel(Log.LEVEL_DEBUG);
-            Log.setLevel(Log.LEVEL_Default);
+            Log.setState(Log.STATE_Default);
             Database app = new Database();
             app.displayMainMenu();
         } catch (Exception e) {
