@@ -6,7 +6,6 @@ import java.util.ArrayList;
 // n keys
 // n + 1 children
 public class NonLeafNode extends Node{
-    private static final String TAG = "NonLeaf-Node";
     protected ArrayList<Node> children;
 
     // constructor

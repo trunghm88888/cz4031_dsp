@@ -8,41 +8,42 @@ public abstract class Node {
     protected boolean isLeaf;
     protected boolean isRoot;
 
-    // constructor
     public Node() {
         keys = new ArrayList<>();
         isLeaf = false;
         isRoot = false;
     }
-
-    // set isStatus
-    public void setIsLeaf(boolean is_Leaf) {
-        this.isLeaf = is_Leaf;
-    }    
-
-    // get isLeaf status
-    public boolean getIsLeaf() {
-        return this.isLeaf;
-    }
-
-    // set root status
-    public void setIsRoot(boolean root_status) {
-        this.isRoot = root_status;
-    }
+    
+    // find smallest key
+    public abstract int findSmallestKey();
+    // delete the node
+    public abstract void deleteNode();
 
     // get root status
     public boolean getIsRoot() {
         return this.isRoot;
     }
-
-    // change node's parent
-    public void setParent(NonLeafNode parentNode) {
-        this.parentNode = parentNode;
+    // set root status
+    public void setIsRoot(boolean root_status) {
+        this.isRoot = root_status;
     }
 
+    // get isLeaf status
+    public boolean getIsLeaf() {
+        return this.isLeaf;
+    }
+    // set isStatus
+    public void setIsLeaf(boolean is_Leaf) {
+        this.isLeaf = is_Leaf;
+    }    
+    
     // get node's parent(Non-leaf)
     public NonLeafNode getParent() {
         return this.parentNode;
+    }
+    // change node's parent
+    public void setParent(NonLeafNode parentNode) {
+        this.parentNode = parentNode;
     }
 
 
@@ -50,7 +51,6 @@ public abstract class Node {
     public ArrayList<Integer> getKeys() {
         return this.keys;
     }
-
     // get key at specific index
     public int getKey(int index) {
         return this.keys.get(index);
@@ -74,12 +74,6 @@ public abstract class Node {
     public void deleteKeys() {
         this.keys = new ArrayList<>();
     }
-
-    // find smallest key
-    public abstract int findSmallestKey();
-
-    // delete the node
-    public abstract void deleteNode();
 
     @Override
     public String toString() {
