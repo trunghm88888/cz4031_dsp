@@ -4,6 +4,7 @@ import cz4031.index.BpTree;
 import cz4031.storage.Address;
 import cz4031.storage.Disk;
 import cz4031.storage.Record;
+import cz4031.util.Constants;
 import cz4031.util.Log;
 import cz4031.util.Utilities;
 
@@ -19,10 +20,12 @@ public class Database implements Constants {
 
     public void runDatabase(int blockSize) throws Exception {
         // load IMDB file
+        System.out.println("\nExperiment 1 & 2: Store Data & Build B+ Tree on 'numVotes' ");
         List<Record> records = Utilities.loadRecord(DATA_FILE_PATH);
 
         disk = new Disk(Constants.DISK_SIZE, blockSize);
         index = new BpTree(blockSize);
+        
         System.out.println("Implementing database with block size: " + blockSize);
         System.out.println("Initalising record insertion and building index...");
         Address recordAddr;
@@ -32,7 +35,7 @@ public class Database implements Constants {
             index.insert(r.numVot, recordAddr);
         }
         System.out.println("COMPLETED: Records inserted and index created");
-        disk.log();
+        disk.diskStats();
 //		index.logStructure(1); // printing root and first level?
 
         index.treeStats();
@@ -84,7 +87,7 @@ public class Database implements Constants {
             System.out.println(String.format("[%d] %s",i+1, options[i]));
         }
         if (includeQuit){
-            System.out.println("[3] EXIT");
+            System.out.println("[3] EXIT\n");
         }
         System.out.print("Enter Option: ");
         return scanner.nextLine();
@@ -108,7 +111,7 @@ public class Database implements Constants {
         };
         String input;
         do {
-            System.out.println("CZ4031 - Database Assignment 1 (Group 1)");
+            System.out.println("\nCZ4031 - Database Assignment 1 [Group 1]");
             System.out.println("Select Experiment Block Size:");
             input = getOptions(menu, true);
             switch (input) {

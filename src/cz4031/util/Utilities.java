@@ -2,7 +2,6 @@ package cz4031.util;
 import java.io.*;
 import java.util.*;
 
-import cz4031.Constants;
 import cz4031.storage.Record;
 
 public class Utilities{
@@ -10,15 +9,17 @@ public class Utilities{
     public static List<Record> loadRecord(String path) throws Exception {
         //df = datafile
 		File df = new File(path);
-		Log.defaultPrint(TAG, "Inserting data records from " + path);
+		System.out.println("Insert data from: " + path);
+		//Log.defaultPrint(TAG, "Inserting data records from " + path);
 		if (!df.exists()) {
 			//try appeding with  current directory
 			df = new File(Constants.PROJECT_DIRECTORY, path);
-			Log.defaultPrint(TAG,"Retry and load record from instead" + df.getAbsolutePath());
+			System.out.println("Reattempt to insert data from: " + df.getAbsolutePath());
+			//Log.defaultPrint(TAG,"Retry and load record from instead" + df.getAbsolutePath());
 
             //file does not exist
 			if (!df.exists()){
-				throw new FileNotFoundException("File does not exist");
+				throw new FileNotFoundException("- File does not exist! -");
 			}
 		}
 
@@ -44,26 +45,16 @@ public class Utilities{
 				try {
 					br.close();
 				}catch (IOException e) {
-					Log.defaultPrint(e.getMessage());
+					System.out.println(e.getMessage());
+					//Log.defaultPrint(e.getMessage());
 				}
 			}
 		}
-		Log.defaultPrint(TAG, "total records: "+records.size());
+		System.out.println(" Total number of Records: " + records.size());
+		//Log.defaultPrint(TAG, "total records: "+records.size());
 		//Analyzer.log();
 		return records;
 	}
-
-    //format to byte-size
-	public static String formatFileSize(int size){
-		String[] suffix = { "B", "KB", "MB", "GB", "TB" };
-		int order = 0;
-		if (size > 0){
-			order = (int) (Math.log(size)/Math.log(1000));
-		}
-		double normSize = size / Math.pow(1000, order);
-		return String.format("%.2f %s", normSize, suffix[order]);
-	}
-
 
 	public static List<Record> generateRecords(int num){
 		ArrayList<Record> records = new ArrayList<>();
@@ -82,4 +73,16 @@ public class Utilities{
 		}
 		return records;
 	}
+
+	//format to byte-size
+	public static String formatFileSize(int size){
+		String[] suffix = { "B", "KB", "MB", "GB", "TB" };
+		int order = 0;
+		if (size > 0){
+			order = (int) (Math.log(size)/Math.log(1000));
+		}
+		double normSize = size / Math.pow(1000, order);
+		return String.format("%.2f %s", normSize, suffix[order]);
+	}
+
 }

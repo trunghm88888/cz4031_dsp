@@ -1,7 +1,6 @@
 package cz4031.index;
 
 import cz4031.storage.Address;
-import cz4031.util.Log;
 import java.util.ArrayList;
 
 /**

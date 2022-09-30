@@ -1,4 +1,4 @@
-package cz4031;
+package cz4031.util;
 
 public interface Constants {
     int DISK_SIZE = 100*1000*1000;

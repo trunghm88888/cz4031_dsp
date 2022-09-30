@@ -12,16 +12,13 @@ import cz4031.util.Utilities;
 public class Disk {
 
     private static final String TAG = "Disk";
-    
-    //size of disk
-    int diskSize;
     //size of block
     int blockSize;
-
     //max amount of block in disk
     int maxBlockNum;
-
-    //blocks in a disk
+    //size of disk
+    int diskSize;
+    //blocks in a disk implemented with arraylist
     ArrayList<Block> blocks; 
 
     public Disk(int diskSize, int blockSize) { 
@@ -90,7 +87,6 @@ public class Disk {
         else{
             return -1;
         }
-        //return blocks.size()>0? blocks.size()-1:-1;
     }
 
     public Block getBlock(int blockId){
@@ -137,9 +133,14 @@ public class Disk {
 
         return records;
     }
-    public void log(){
-        Log.defaultPrint(TAG, String.format("disk size = %s / %s", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) ));
-        Log.defaultPrint(TAG, String.format("block size = %s", Utilities.formatFileSize(blockSize)));
-        Log.defaultPrint(TAG, String.format("blocks = %,d / %,d", blocks.size(), maxBlockNum));
+    public void diskStats(){
+        System.out.println("Disk Statistics: ");
+        System.out.format("disk size = %s / %s \n", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) );
+        System.out.format("block size = %s \n", Utilities.formatFileSize(blockSize));
+        System.out.format("blocks = %,d / %,d \n", blocks.size(), maxBlockNum);
+
+        // Log.defaultPrint(TAG, String.format("disk size = %s / %s", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) ));
+        // Log.defaultPrint(TAG, String.format("block size = %s", Utilities.formatFileSize(blockSize)));
+        // Log.defaultPrint(TAG, String.format("blocks = %,d / %,d", blocks.size(), maxBlockNum));
     }
 }

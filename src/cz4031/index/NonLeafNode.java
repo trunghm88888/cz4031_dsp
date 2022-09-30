@@ -1,5 +1,4 @@
 package cz4031.index;
-import cz4031.util.Log;
 import cz4031.storage.Address;
 import java.util.ArrayList;
 
