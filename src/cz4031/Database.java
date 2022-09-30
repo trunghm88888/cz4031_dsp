@@ -41,14 +41,14 @@ public class Database implements Constants {
         index.treeStats();
 
         pause("\nPress any key to start Experiment 3\n");
-        doExperiment3();
+        experiment3();
         pause("\nPress any key to start Experiment 4\n");
-        doExperiment4();
+        experiment4();
         pause("\nPress any key to start Experiment 5\n");
-        doExperiment5();
+        experiment5();
     }
 
-    public void doExperiment3(){
+    public void experiment3(){
         System.out.println("Experiment 3: Retreiving records with numVotes = 500");
         //ArrayList<Address> e3RecordAddresses = index.getRecordsWithKey(1000);
         ArrayList<Record> records = disk.getRecords(index.getRecordsWithKey(500));
@@ -58,10 +58,11 @@ public class Database implements Constants {
             avgRating += record.avgRat;
         }
         avgRating /= records.size();
-        Log.defaultPrint("Average rating="+avgRating);
+        System.out.println("Average Rating: "+avgRating);
+        //Log.defaultPrint("Average rating="+avgRating);
     }
 
-    public void doExperiment4(){
+    public void experiment4(){
         System.out.println("Experiment 4: Retreiving records with numVotes from: 30000-40000");
         //ArrayList<Address> e4RecordAddresses = index.getRecordsInRange(30000,40000);
         ArrayList<Record> records = disk.getRecords(index.getRecordsInRange(30000,40000));
@@ -74,7 +75,7 @@ public class Database implements Constants {
         Log.defaultPrint("Average rating="+avgRating);
     }
 
-    public void doExperiment5(){
+    public void experiment5(){
         System.out.println("Experiment 5: Delete records with numVotes = 1000 ");
         index.deleteKey(1000);
         // TODO: get back address and delete records from storage
@@ -82,16 +83,6 @@ public class Database implements Constants {
 
 
     // app menu
-    private String getOptions(String[] options, boolean includeQuit){
-        for (int i = 0; i < options.length; i++) {
-            System.out.println(String.format("[%d] %s",i+1, options[i]));
-        }
-        if (includeQuit){
-            System.out.println("[3] EXIT\n");
-        }
-        System.out.print("Enter Option: ");
-        return scanner.nextLine();
-    }
     private void pause(){
         pause(null);
     }
@@ -103,6 +94,16 @@ public class Database implements Constants {
         System.out.print(message);
         scanner.nextLine();
     }
+    
+    private String getOptions(String[] options){
+        for (int i = 0; i < options.length; i++) {
+            System.out.println(String.format("[%d] %s",i+1, options[i]));
+        }
+        System.out.println("[3] EXIT\n");
+    
+        System.out.print("Enter Option: ");
+        return scanner.nextLine();
+    }
 
     public void displayMainMenu() throws Exception {
         String[] menu = {
@@ -111,9 +112,10 @@ public class Database implements Constants {
         };
         String input;
         do {
-            System.out.println("\nCZ4031 - Database Assignment 1 [Group 1]");
+            System.out.println("=======================================");
+            System.out.println("\nCZ4031 Database Project 1 [Group 1] ");
             System.out.println("Select Experiment Block Size:");
-            input = getOptions(menu, true);
+            input = getOptions(menu);
             switch (input) {
                 case "1":
                     runDatabase(BLOCK_SIZE_200);
@@ -130,7 +132,7 @@ public class Database implements Constants {
     public static void main(String[] args) {
         try {
             // Log.setLevel(Log.LEVEL_DEBUG);
-            Log.setState(Log.STATE_Default);
+            //Log.setState(Log.STATE_Default);
             Database app = new Database();
             app.displayMainMenu();
         } catch (Exception e) {
