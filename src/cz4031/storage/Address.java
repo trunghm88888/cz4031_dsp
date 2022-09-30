@@ -4,7 +4,6 @@ package cz4031.storage;
  * Class representing the logical address of a record
  */
 public class Address{
-    
     //Id of block
     int blockID;
     //relative offset
@@ -18,14 +17,13 @@ public class Address{
     public int getBlockId(){
         return blockID;
     }
-    public int getOffset() {
-        return offset;
-    }
-
     public void setBlockId(int blockID) {
         this.blockID = blockID;
     }
 
+    public int getOffset() {
+        return offset;
+    }
     public void setOffset(int offset){
         this.offset = offset;
     }

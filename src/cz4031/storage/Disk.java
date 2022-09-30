@@ -1,17 +1,13 @@
 package cz4031.storage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import cz4031.util.Log;
 import cz4031.util.Utilities;
 
 public class Disk {
-
-    private static final String TAG = "Disk";
     //size of block
     int blockSize;
     //max amount of block in disk
@@ -59,7 +55,7 @@ public class Disk {
         // if block isn't available or doesn't exist, create a new block to insert to
         if (block == null || !block.isAvailable()) { 
             if (blocks.size() == maxBlockNum) {
-                throw new Exception("Insufficient space on disk for insertion.");
+                throw new Exception("Insufficient space on Disk for Insertion.");
             }
             block = new Block(blockSize);
             blocks.add(block);
@@ -112,9 +108,7 @@ public class Disk {
     }
     public ArrayList<Record> getRecords(ArrayList<Address> addresses){
         ArrayList<Record> records = new ArrayList<>();
-
-        // data structure for storing the blocks accessed
-        Set<Integer> accessedBlockIds = null;
+        Set<Integer> accessedBlockIds = null; // Storing Blocks accessed
         accessedBlockIds = new HashSet<>();
 
         Block tempBlk;
@@ -125,8 +119,8 @@ public class Disk {
             records.add(record);
         }
 
-        // displaying the accessed blocks
-        System.out.printf("Accessed %d data blocks. Contents:\n", accessedBlockIds.size());
+        // Print accessed Blocks
+        System.out.printf("Accessed %d data blocks. Contents-", accessedBlockIds.size());
         accessedBlockIds
                 .stream().limit(5).collect(Collectors.toSet())
                 .forEach(id -> System.out.printf("Block %d: " + getBlock(id) + "\n", id));
@@ -134,13 +128,10 @@ public class Disk {
         return records;
     }
     public void diskStats(){
+        System.out.println("================================");
         System.out.println("Disk Statistics: ");
-        System.out.format("disk size = %s / %s \n", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) );
-        System.out.format("block size = %s \n", Utilities.formatFileSize(blockSize));
-        System.out.format("blocks = %,d / %,d \n", blocks.size(), maxBlockNum);
-
-        // Log.defaultPrint(TAG, String.format("disk size = %s / %s", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) ));
-        // Log.defaultPrint(TAG, String.format("block size = %s", Utilities.formatFileSize(blockSize)));
-        // Log.defaultPrint(TAG, String.format("blocks = %,d / %,d", blocks.size(), maxBlockNum));
+        System.out.format(" block size = %s \n", Utilities.formatFileSize(blockSize));
+        System.out.format(" blocks = %,d / %,d \n", blocks.size(), maxBlockNum);
+        System.out.format(" disk size = %s / %s \n", Utilities.formatFileSize(usedSpace()), Utilities.formatFileSize(diskSize) );
     }
 }

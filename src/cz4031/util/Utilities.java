@@ -1,23 +1,18 @@
 package cz4031.util;
+
 import java.io.*;
 import java.util.*;
 
 import cz4031.storage.Record;
 
 public class Utilities{
-    private static final String TAG = "Utilities";
     public static List<Record> loadRecord(String path) throws Exception {
-        //df = datafile
 		File df = new File(path);
 		System.out.println("Insert data from: " + path);
-		//Log.defaultPrint(TAG, "Inserting data records from " + path);
 		if (!df.exists()) {
-			//try appeding with  current directory
-			df = new File(Constants.PROJECT_DIRECTORY, path);
+			df = new File(Constants.PROJECT_DIRECTORY, path); // use current directory
 			System.out.println("Reattempt to insert data from: " + df.getAbsolutePath());
-			//Log.defaultPrint(TAG,"Retry and load record from instead" + df.getAbsolutePath());
-
-            //file does not exist
+			
 			if (!df.exists()){
 				throw new FileNotFoundException("- File does not exist! -");
 			}
@@ -29,14 +24,11 @@ public class Utilities{
 		String[] fields = null;
 		try {
 			br = new BufferedReader(new FileReader(df));
-			// reading header first (to be skipped)
-			br.readLine();
+			br.readLine(); // Ignoring header
 			while((line = br.readLine()) != null) {
-                //attributes of record split by tab
-				fields = line.split("\\t");
+				fields = line.split("\\t"); //tab sepeprated fields in record
 				Record record = new Record(fields[0], Float.parseFloat(fields[1]), Integer.parseInt( fields[2]));
 				records.add( record );
-				//Analyzer.analysis(record);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,13 +38,10 @@ public class Utilities{
 					br.close();
 				}catch (IOException e) {
 					System.out.println(e.getMessage());
-					//Log.defaultPrint(e.getMessage());
 				}
 			}
 		}
 		System.out.println(" Total number of Records: " + records.size());
-		//Log.defaultPrint(TAG, "total records: "+records.size());
-		//Analyzer.log();
 		return records;
 	}
 
@@ -74,7 +63,7 @@ public class Utilities{
 		return records;
 	}
 
-	//format to byte-size
+	//format to Byte size
 	public static String formatFileSize(int size){
 		String[] suffix = { "B", "KB", "MB", "GB", "TB" };
 		int order = 0;

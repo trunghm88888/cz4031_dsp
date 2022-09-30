@@ -48,7 +48,7 @@ public class Block {
             //deletion successful
             return true;
         }
-        //uncessfull deletion
+        //unsucessfull deletion
         return false;
     }
 

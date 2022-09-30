@@ -8,11 +8,9 @@ import java.util.ArrayList;
  * 
  */
 public class LeafNode extends Node {
-    private static final String TAG = "Leaf-Node";
     private ArrayList<Address> records;
     protected LeafNode next;
 
-    // constructor
     public LeafNode() {
         super();
         this.records = new ArrayList<>();
@@ -20,46 +18,30 @@ public class LeafNode extends Node {
         this.next = null;
     }
 
-    // return arraylist of all records
-    public ArrayList<Address> getRecords() {
-        return this.records;
-    }
-
-    // return record at index
+    //by index
     public Address getRecord(int index) {
         return this.records.get(index);
     }
-
-    // add record
+    public ArrayList<Address> getRecords() {
+        return this.records;
+    }
+   
     //record must be sorted in ascending order
     public int addRecord(int key, Address address) {
 
-//        if (this.getRecords().size() == 0) {
-//
-//            this.records.add(address);
-//            this.addKey(key);
-//            return 0;
-//        }
         int index = super.addKey(key);
         records.add(index, address);
-
-//        for (int i = records.size() -2; i >= index; i--)
-//            records.set(i+1, records.get(i));
-//
-//        records.set(index, address);
-
         return index;
     }
 
-    // get next leafnode
+    public void setNext(LeafNode nextLeafNode) {
+        this.next = nextLeafNode;
+    }
     public LeafNode getNext() {
         return this.next;
     }
 
-    // set next leafnode
-    public void setNext(LeafNode nextLeafNode) {
-        this.next = nextLeafNode;
-    }
+    
 
     @Override
     public int findSmallestKey() {
