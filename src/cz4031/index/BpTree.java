@@ -362,7 +362,7 @@ public class BpTree {
             curLeaf = curLeaf.getNext();
         }
 
-        System.out.printf("input(%d): %d records found with %d node access\n\n", key, result.size(), blockAccess);
+        System.out.printf("For Key %d after %d node access %d records found \n\n", key, blockAccess, result.size());
         return result;
     }
 
