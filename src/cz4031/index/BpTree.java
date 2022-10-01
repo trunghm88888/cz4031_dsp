@@ -78,7 +78,6 @@ public class BpTree {
             keys = leaf.getKeys();
             ArrayList<Integer> toDelete = new ArrayList<>();
             if (keys.contains(key)) {
-                System.out.println(leaf);
                 for (int i = 0; i < keys.size(); i++) {
                     if (keys.get(i) == key)
                         toDelete.add(i);
@@ -149,7 +148,6 @@ public class BpTree {
         NonLeafNode parent2 = new NonLeafNode();
 
         int i;
-
         if (key <= parentSmallestKey) {
             keys.add(0, parentSmallestKey);
             children.add(0, child);
@@ -210,7 +208,6 @@ public class BpTree {
 
         // if need to merge, then just delete this node and re-insert
         if (needed > prevShare + nextShare) {
-            System.out.println("Deleting leaf..." + node);
             for (int i = 0; i < node.getKeys().size(); i++) {
                 insert(node.getKey(i), node.getRecord(i));
             }
@@ -335,13 +332,13 @@ public class BpTree {
             blockAccess++;
             for (int i=0; i<nonLeafNode.getKeys().size(); i++) {
                 if (key <= nonLeafNode.getKey(i)){
-                    System.out.println("Current Node: " + curNode.toString());
+                    System.out.println("Current Node: " + curNode);
                     System.out.println("Going to pointer (" + i + ") as key{" + key +"} <= curKey{" + nonLeafNode.getKey(i) + "}\n");
                     curNode = nonLeafNode.getChildNode(i);
                     break;
                 }
                 if (i == nonLeafNode.getKeys().size()-1){
-                    System.out.println("Current Node: " + curNode.toString());
+                    System.out.println("Current Node: " + curNode);
                     System.out.println("Going to pointer (" + i + "+1) as key{" + key +"} > curKey{" + nonLeafNode.getKey(i) + "}\n");                    
                     curNode = nonLeafNode.getChildNode(i+1);
                     break;
@@ -352,9 +349,7 @@ public class BpTree {
         // Retreive all record with same key
         LeafNode curLeaf = (LeafNode) curNode;
         while(curLeaf != null){
-            System.out.println(curLeaf);
             blockAccess++;
-
             for (int i=0; i < curLeaf.getKeys().size(); i++){
                 // Key found and append to result
                 if (curLeaf.getKey(i) == key)
