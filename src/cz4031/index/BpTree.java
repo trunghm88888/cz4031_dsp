@@ -348,7 +348,7 @@ public class BpTree {
         
         // Retreive all record with same key
         LeafNode curLeaf = (LeafNode) curNode;
-        System.out.println("Current leaf: " + curLeaf);
+        //System.out.println("Current leaf: " + curLeaf);
         while(curLeaf != null){
             blockAccess++;
             for (int i=0; i < curLeaf.getKeys().size(); i++){
